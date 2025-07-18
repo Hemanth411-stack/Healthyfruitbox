@@ -117,7 +117,7 @@ const CartPage = () => {
                 
                 <ul className="divide-y divide-gray-200">
                   {items.map((item) => (
-                    <li key={`${item.product._id}-${item.productType}`} className="p-6">
+                    <li key={`{item.product._id}-{item.productType}`} className="p-6">
                       <div className="flex flex-col sm:flex-row">
                         {/* <div className="sm:w-1/4 mb-4 sm:mb-0 flex-shrink-0">
                           <img
@@ -142,17 +142,17 @@ const CartPage = () => {
                             </div>
                             <div className="text-right">
                               <p className="text-lg font-semibold text-gray-900">
-                                ${item.basePrice?.toFixed(2)}
+                                {item.basePrice?.toFixed(2)}
                               </p>
                             </div>
                           </div>
                           
                           <div className="mt-4 flex items-center">
-                            <label htmlFor={`quantity-${item.product._id}`} className="mr-2 text-sm font-medium text-gray-700">
+                            <label htmlFor={`quantity-{item.product._id}`} className="mr-2 text-sm font-medium text-gray-700">
                               Quantity:
                             </label>
                             <select
-                              id={`quantity-${item.product._id}`}
+                              id={`quantity-{item.product._id}`}
                               value={item.quantity}
                               onChange={(e) => handleQuantityChange(item.product, item.productType, parseInt(e.target.value))}
                               className="border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm"
@@ -187,7 +187,7 @@ const CartPage = () => {
                     Subtotal ({items.length} {items.length === 1 ? 'item' : 'items'})
                   </p>
                   <p className="text-lg font-semibold text-gray-900">
-                    ${totalPrice?.toFixed(2)}
+                    {totalPrice?.toFixed(2)}
                   </p>
                 </div>
               </div>
@@ -204,7 +204,7 @@ const CartPage = () => {
                   <div className="flex justify-between">
                     <p className="text-sm text-gray-600">Subtotal</p>
                     <p className="text-sm font-medium text-gray-900">
-                      ${totalPrice?.toFixed(2)}
+                      {totalPrice?.toFixed(2)}
                     </p>
                   </div>
                   
@@ -222,7 +222,7 @@ const CartPage = () => {
                     <div className="flex justify-between">
                       <p className="text-base font-medium text-gray-900">Total</p>
                       <p className="text-base font-bold text-gray-900">
-                        ${totalPrice?.toFixed(2)}
+                        {totalPrice?.toFixed(2)}
                       </p>
                     </div>
                   </div>
