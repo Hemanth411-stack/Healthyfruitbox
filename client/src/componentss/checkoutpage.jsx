@@ -8,6 +8,8 @@ import {
   selectUserInfoStatus,
   selectUserInfoSaveStatus,
 } from '../redux/slices/Userinformation.js';
+import Header from "../componentss/Header.jsx"
+import Footer from "../componentss/Footer.jsx"
 import {
   createSubscription,
   selectSubscriptionOperationStatus,
@@ -314,6 +316,8 @@ const CheckoutPage = () => {
 
 
   return (
+    <>
+    <Header/>
     <div className="container mx-auto px-4 py-8 max-w-7xl">
       <h1 className="text-3xl font-bold mb-8">Checkout</h1>
       
@@ -773,6 +777,8 @@ const CheckoutPage = () => {
         </div>
       )}
     </div>
+    <Footer/>
+    </>
   );
 };
 
