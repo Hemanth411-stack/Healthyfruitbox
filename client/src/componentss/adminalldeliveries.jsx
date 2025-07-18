@@ -14,7 +14,7 @@ const DeliveriesList = () => {
     const fetchDeliveries = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/api/deliveries/admin/all',
+          'https://healthyfruitbox.onrender.com/api/deliveries/admin/all',
           {
             headers: {
               Authorization: `Bearer ${token}`,

@@ -10,7 +10,7 @@ const  token  = useSelector((state) => state.user?.userInfo?.token);
     const fetchDeliveryBoys = async () => {
        try {
         const response = await axios.get(
-          'http://localhost:5000/api/deliveryboi/delivery-details',
+          'https://healthyfruitbox.onrender.com/api/deliveryboi/delivery-details',
           {
             headers: {
               Authorization: `Bearer ${token}`,
