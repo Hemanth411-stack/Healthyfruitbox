@@ -11,7 +11,7 @@ export const addToCart = createAsyncThunk(
     try {
       const token = getState().user?.userInfo?.token;
       const { data } = await axios.post(
-        'http://localhost:5000/api/subscriptions/addtocart',
+        'https://healthyfruitbox.onrender.com/api/subscriptions/addtocart',
         { productId, productType, quantity, addOnPrices, notes },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -27,7 +27,7 @@ export const getCart = createAsyncThunk(
   async (_, { getState, rejectWithValue }) => {
     try {
       const token = getState().user?.userInfo?.token;
-      const { data } = await axios.get('http://localhost:5000/api/subscriptions/cart', {
+      const { data } = await axios.get('https://healthyfruitbox.onrender.com/api/subscriptions/cart', {
         headers: { Authorization: `Bearer ${token}` }
       });
       return data;
@@ -42,7 +42,7 @@ export const deleteCart = createAsyncThunk(
   async (_, { getState, rejectWithValue }) => {
     try {
       const token = getState().user?.userInfo?.token;
-      const { data } = await axios.delete('http://localhost:5000/api/cart', {
+      const { data } = await axios.delete('https://healthyfruitbox.onrender.com/api/cart', {
         headers: { Authorization: `Bearer ${token}` }
       });
       return data;
@@ -58,7 +58,7 @@ export const removeItemFromCart = createAsyncThunk(
     try {
       const token = getState().user?.userInfo?.token;
       const { data } = await axios.delete(
-        `http://localhost:5000/api/cart/${productId}/${productType}`,
+        `https://healthyfruitbox.onrender.com/api/cart/${productId}/${productType}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       return data;
@@ -74,7 +74,7 @@ export const updateCartQuantity = createAsyncThunk(
     try {
       const token = getState().user?.userInfo?.token;
       const { data } = await axios.put(
-        'http://localhost:5000/api/subscriptions/update-cart',
+        'https://healthyfruitbox.onrender.com/api/subscriptions/update-cart',
         { productId, productType, quantity },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -121,7 +121,7 @@ const cartSlice = createSlice({
         state.loading = false;
         state.success = true;
         state.items = action.payload.data.products || [];
-        console.log("items what",state.items)
+        console.log("items what", state.items)
         state.totalPrice = action.payload.data.totalPrice || 0;
         state.notes = action.payload.data.notes || '';
         state.lastUpdated = Date.now();
@@ -137,7 +137,7 @@ const cartSlice = createSlice({
       .addCase(getCart.fulfilled, (state, action) => {
         state.loading = false;
         state.items = action.payload.data?.products || [];
-        console.log("items",state.items)
+        console.log("items", state.items)
         state.totalPrice = action.payload.data?.totalPrice || 0;
         state.notes = action.payload.data?.notes || '';
         state.lastUpdated = Date.now();
@@ -202,12 +202,12 @@ const cartSlice = createSlice({
 
 // Selectors
 export const selectCartItems = (state) => state.cart.items;
-console.log("log items ",selectCartItems)
+console.log("log items ", selectCartItems)
 export const selectCartTotalPrice = (state) => state.cart.totalPrice;
 export const selectCartLoading = (state) => state.cart.loading;
 export const selectCartError = (state) => state.cart.error;
 // Add this to your selectors section
-export const selectCartItemCount = (state) => 
+export const selectCartItemCount = (state) =>
   state.cart.items.reduce((count, item) => count + item.quantity, 0);
 export const { resetCartStatus, clearCartState } = cartSlice.actions;
 export default cartSlice.reducer;

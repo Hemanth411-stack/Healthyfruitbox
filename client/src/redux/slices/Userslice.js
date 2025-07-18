@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // Base URL for your API
-const API_URL = 'http://localhost:5000/api/auth';
+const API_URL = 'https://healthyfruitbox.onrender.com/api/auth';
 
 // Async thunk for user registration
 export const registerUser = createAsyncThunk(

@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // API endpoints
-const API_BASE_URL = 'http://localhost:5000/api/deliveryboi'; // Update with your backend URL
+const API_BASE_URL = 'https://healthyfruitbox.onrender.com/api/deliveryboi'; // Update with your backend URL
 
 // Async thunks
 export const registerDeliveryBoy = createAsyncThunk(

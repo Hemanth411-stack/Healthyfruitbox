@@ -9,7 +9,7 @@ const initialState = {
   deletedDeliveries: 0,
   error: null,
 };
-const API_URL = 'http://localhost:5000/api/subscriptions/admin-delete-subscription'
+const API_URL = 'https://healthyfruitbox.onrender.com/api/subscriptions/admin-delete-subscription'
 // Async thunk for deleting subscription and deliveries
 export const deleteSubscriptionAndDeliveries = createAsyncThunk(
   'admin/delete',
