@@ -161,8 +161,15 @@ export const deleteCart = async (req, res) => {
 
 export const removeItemFromCart = async (req, res) => {
   try {
-    const { productId, productType } = req.params;
+    const { productId, productType } = req.body; // Now getting from body instead of params
     const userId = req.user._id;
+
+    if (!productId || !productType) {
+      return res.status(400).json({
+        success: false,
+        message: "Both productId and productType are required in the request body"
+      });
+    }
 
     // Find the user's cart
     const cart = await Cart.findOne({ user: userId });

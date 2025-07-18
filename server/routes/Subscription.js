@@ -16,5 +16,5 @@ router.put("/update-status", protect, authorize('admin'), updateSubscriptionStat
 router.post('/addtocart',protect,addToCart)
 router.get('/cart',protect,getCart)
 router.put('/update-cart',protect,updateCartQuantity)
-router.delete('/cart/:productId/:productType', protect, removeItemFromCart);
+router.delete('/cart-remove', protect, removeItemFromCart);
 export default router;

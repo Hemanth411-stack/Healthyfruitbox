@@ -51,18 +51,36 @@ export const deleteCart = createAsyncThunk(
     }
   }
 );
-
 export const removeItemFromCart = createAsyncThunk(
   'cart/removeItemFromCart',
   async ({ productId, productType }, { getState, rejectWithValue }) => {
     try {
       const token = getState().user?.userInfo?.token;
+      if (!token) {
+        console.error("No token found!");
+        return rejectWithValue({ message: 'No authentication token found' });
+      }
+
+      console.log("Sending DELETE request with body:", { productId, productType });
+      
       const { data } = await axios.delete(
-        `https://healthyfruitbox.onrender.com/api/cart/${productId}/${productType}`,
-        { headers: { Authorization: `Bearer ${token}` } }
+        `https://healthyfruitbox.onrender.com/api/subscriptions/cart-remove/`,
+        {
+          headers: { 
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          data: { productId, productType } // Axios DELETE with body
+        }
       );
+      
+      console.log("Delete success:", data);
       return data;
     } catch (error) {
+      console.error("Delete error:", {
+        message: error.message,
+        response: error.response?.data,
+      });
       return rejectWithValue(error.response?.data || { message: 'Failed to remove item' });
     }
   }
