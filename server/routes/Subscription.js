@@ -1,7 +1,7 @@
 import express from 'express';
 import {  authorize, protect } from '../middlewear/authmiddlewear.js';
 import  { updateSubscriptionStatus,subscriptionController, getUserSubscriptionStats, getallSubscriptions, } from '../controllers/Subscriptioncontroller.js';
-import { addToCart, getCart, updateCartQuantity } from '../controllers/addtocart.js';
+import { addToCart, getCart, removeItemFromCart, updateCartQuantity } from '../controllers/addtocart.js';
 
 
 const router = express.Router();
@@ -16,4 +16,5 @@ router.put("/update-status", protect, authorize('admin'), updateSubscriptionStat
 router.post('/addtocart',protect,addToCart)
 router.get('/cart',protect,getCart)
 router.put('/update-cart',protect,updateCartQuantity)
+router.delete('/cart/:productId/:productType', protect, removeItemFromCart);
 export default router;

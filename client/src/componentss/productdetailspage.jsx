@@ -44,6 +44,7 @@ const MediumBoxDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [notification, setNotification] = useState({ show: false, type: '', message: '' });
   const [isInCart, setIsInCart] = useState(false);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -67,25 +68,19 @@ const MediumBoxDetails = () => {
     const checkIfInCart = () => {
       if (!product || !cartItems || cartItems.length === 0) return false;
       
-      // Create a map of current addon prices
       const currentAddonPrices = selectedAddons.reduce((acc, addon) => {
         acc[addon.name] = addon.price;
         return acc;
       }, {});
 
-      // Check if any cart item matches the current product and addons
       return cartItems.some(item => {
-        // First check if it's the same product
         if (item.productId !== id) return false;
         
-        // Then check if addons match
         const itemAddonKeys = Object.keys(item.addOnPrices || {});
         const currentAddonKeys = Object.keys(currentAddonPrices);
         
-        // If different number of addons, they're different items
         if (itemAddonKeys.length !== currentAddonKeys.length) return false;
         
-        // Check each addon price matches
         return itemAddonKeys.every(key => 
           item.addOnPrices[key] === currentAddonPrices[key]
         );
@@ -130,6 +125,8 @@ const MediumBoxDetails = () => {
       return;
     }
 
+    setIsAddingToCart(true);
+
     const cartItem = {
       productId: id,
       productType: /medium|large/i.test(name) ? 'fruitbox' : 'juice',
@@ -155,6 +152,8 @@ const MediumBoxDetails = () => {
     } catch (err) {
       console.error('Failed to add to cart:', err);
       showNotification('error', 'Failed to add product to cart. Please try again.');
+    } finally {
+      setIsAddingToCart(false);
     }
   };
 
@@ -392,29 +391,38 @@ const MediumBoxDetails = () => {
                   </div>
                 </div>
 
-             <motion.button
-  whileHover={{ scale: isInCart ? 1 : 1.02 }}
-  whileTap={{ scale: isInCart ? 1 : 0.98 }}
-  onClick={isInCart ? () => navigate('/cart') : handleAddToCart}
-  className={`w-full ${
-    isInCart 
-      ? 'bg-emerald-100 text-emerald-700 border-2 border-emerald-500'
-      : 'bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white'
-  } font-bold py-4 px-6 rounded-2xl shadow-xl transition-all duration-300 flex items-center justify-center`}
->
-  {isInCart ? (
-    <>
-      <FiCheck className="mr-3" />
-      <span className="text-lg">Added to Cart</span>
-    </>
-  ) : (
-    <>
-      <FiShoppingCart className="mr-3" />
-      <span className="text-lg">Add to Cart</span>
-    </>
-  )}
-</motion.button>
-
+                <motion.button
+                  whileHover={{ scale: isInCart || isAddingToCart ? 1 : 1.02 }}
+                  whileTap={{ scale: isInCart || isAddingToCart ? 1 : 0.98 }}
+                  onClick={isInCart ? () => navigate('/cart') : handleAddToCart}
+                  disabled={isAddingToCart}
+                  className={`w-full ${
+                    isInCart 
+                      ? 'bg-emerald-100 text-emerald-700 border-2 border-emerald-500'
+                      : isAddingToCart
+                        ? 'bg-indigo-400 text-white'
+                        : 'bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white'
+                  } font-bold py-4 px-6 rounded-2xl shadow-xl transition-all duration-300 flex items-center justify-center relative overflow-hidden`}
+                >
+                  {isAddingToCart ? (
+                    <>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-white"></div>
+                      </div>
+                      <span className="opacity-0">Adding to Cart</span>
+                    </>
+                  ) : isInCart ? (
+                    <>
+                      <FiCheck className="mr-3" />
+                      <span className="text-lg">Added to Cart</span>
+                    </>
+                  ) : (
+                    <>
+                      <FiShoppingCart className="mr-3" />
+                      <span className="text-lg">Add to Cart</span>
+                    </>
+                  )}
+                </motion.button>
 
                 <div className="mt-6 flex flex-wrap justify-center gap-4">
                   <div className="flex items-center text-sm text-gray-600">
